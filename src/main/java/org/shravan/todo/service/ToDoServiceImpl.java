@@ -65,7 +65,7 @@ public class ToDoServiceImpl implements ToDoService{
     @Override
     public Optional<ToDoItem> updateStatus(@RequestBody ToDoItem toDoItem) {
         Long id = toDoItem.getId();
-        if(repository.findById(id).isPresent()){
+        if(repository.existsById(id)){
             ToDoItem item = repository.findById(id).orElse(null);
             item.setStatus(toDoItem.getStatus());
             repository.save(item);
