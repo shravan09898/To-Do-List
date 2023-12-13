@@ -1,15 +1,14 @@
 package org.shravan.todo.service;
 
 import org.shravan.todo.model.ToDoItem;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ToDoService {
     public List<ToDoItem> getAllTodoDetails();
     public ToDoItem createTodoItem(ToDoItem item);
-    public ToDoItem getItemById(Long id);
+    public Optional<ToDoItem> getItemById(Long id);
     public ToDoItem updateItem(ToDoItem toDoItem);
     public boolean deleteItem(Long id);
     public List<ToDoItem> deleteMultipleItems();
