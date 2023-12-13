@@ -34,12 +34,14 @@ public class ToDoServiceImpl implements ToDoService{
     }
 
     @Override
-    public List<ToDoItem> deleteItem(@PathVariable Long id) {
-        if(getItemById(id)==null){
-            throw new ItemNotFoundException("Item not available with id: "+id);
+    public boolean deleteItem(@PathVariable Long id) {
+        if(repository.findById(id).isPresent()){
+            repository.deleteById(id);
         }
-        repository.deleteById(id);
-        return repository.findAll();
+        else{
+            throw new ItemNotFoundException("Item not available to delete with id: "+id);
+        }
+        return true;
     }
 
     @Override

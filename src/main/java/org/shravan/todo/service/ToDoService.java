@@ -11,7 +11,7 @@ public interface ToDoService {
     public ToDoItem createTodoItem(ToDoItem item);
     public ToDoItem getItemById(Long id);
     public ToDoItem updateItem(ToDoItem toDoItem);
-    public List<ToDoItem> deleteItem(Long id);
+    public boolean deleteItem(Long id);
     public List<ToDoItem> deleteMultipleItems();
     public ToDoItem updateStatus();
 

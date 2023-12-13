@@ -23,7 +23,7 @@ public class ToDoController{
     }
 
     @PostMapping("/todo")
-    public ToDoItem createTodoItem(ToDoItem newTask){
+    public ToDoItem createTodoItem(@RequestBody ToDoItem newTask){
         return service.createTodoItem(newTask);
     }
 
@@ -33,16 +33,16 @@ public class ToDoController{
     }
 
     @PutMapping("/todo/{id}")
-    public void updateItem(ToDoItem updateItem, Long id){
-
+    public ToDoItem updateItem(ToDoItem updateItem){
+        return service.updateItem(updateItem);
     }
 
     @DeleteMapping("/todo/{id}")
-    public List<ToDoItem> deleteItem(@PathVariable Long id){
+    public boolean deleteItem(@PathVariable Long id){
         return service.deleteItem(id);
     }
     @DeleteMapping("/todo")
     public List<ToDoItem> deleteMultipleItems(){
-        return null;
+        return service.deleteMultipleItems();
     }
 }
