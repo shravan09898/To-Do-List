@@ -43,4 +43,9 @@ public class ToDoController{
     public List<ToDoItem> deleteMultipleItems(){
         return service.deleteMultipleItems();
     }
+
+    @PutMapping("/updateStatus")
+    public Optional<ToDoItem> updateStatusOfTask(@RequestBody ToDoItem item){
+        return service.updateStatus(item);
+    }
 }

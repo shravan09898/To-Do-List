@@ -63,7 +63,17 @@ public class ToDoServiceImpl implements ToDoService{
     }
 
     @Override
-    public ToDoItem updateStatus() {
-        return null;
+    public Optional<ToDoItem> updateStatus(@RequestBody ToDoItem toDoItem) {
+        Long id = toDoItem.getId();
+        if(repository.findById(id).isPresent()){
+            ToDoItem item = repository.findById(id).orElse(null);
+            item.setStatus(toDoItem.getStatus());
+            repository.save(item);
+        }
+        else{
+            throw new ItemNotFoundException("Item not available to delete with id: "+id);
+        }
+
+        return repository.findById(id);
     }
 }
