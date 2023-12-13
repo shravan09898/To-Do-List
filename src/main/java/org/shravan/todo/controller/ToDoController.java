@@ -2,12 +2,16 @@ package org.shravan.todo.controller;
 
 
 import org.shravan.todo.model.ToDoItem;
+import org.shravan.todo.model.response.GenericResponse;
 import org.shravan.todo.service.ToDoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 public class ToDoController{
@@ -26,21 +30,26 @@ public class ToDoController{
     }
 
     @GetMapping("/todo/{id}")
-    public Optional<ToDoItem> getItemById(@PathVariable Long id){
+    public Optional<ToDoItem> getItemById(@PathVariable UUID id){
         return service.getItemById(id);
     }
 
     @PutMapping("/todo")
-    public ToDoItem updateItem(@RequestBody ToDoItem updateItem){
-        return service.updateItem(updateItem);
+    public void updateItem(@RequestBody ToDoItem updateItem){
+        service.updateItem(updateItem);
     }
 
     @DeleteMapping("/todo/{id}")
-    public boolean deleteItem(@PathVariable Long id){
-        return service.deleteItem(id);
+    public void deleteItem(@PathVariable UUID id){
+        service.deleteItem(id);
     }
     @DeleteMapping("/todo")
-    public List<ToDoItem> deleteMultipleItems(){
-        return service.deleteMultipleItems();
+    public ResponseEntity<GenericResponse<String, String>> deleteMultipleItems(@RequestBody List<UUID> ids){
+        return ResponseEntity.ok(service.deleteMultipleItems(ids));
+    }
+
+    @PutMapping("/updateStatus")
+    public void updateStatusOfTask(@RequestBody ToDoItem item){
+        service.updateStatus(item);
     }
 }
