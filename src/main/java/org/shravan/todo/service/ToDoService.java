@@ -8,10 +8,10 @@ import java.util.List;
 
 public interface ToDoService {
     public List<ToDoItem> getAllTodoDetails();
-    public ToDoItem createTodoItem();
-    public ToDoItem getItemById(int id);
+    public ToDoItem createTodoItem(ToDoItem item);
+    public ToDoItem getItemById(Long id);
     public ToDoItem updateItem(ToDoItem toDoItem);
-    public List<ToDoItem> deleteItem(long id);
+    public List<ToDoItem> deleteItem(Long id);
     public List<ToDoItem> deleteMultipleItems();
     public ToDoItem updateStatus();
 
