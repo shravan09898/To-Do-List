@@ -40,12 +40,14 @@ public class ToDoController{
         return service.deleteItem(id);
     }
     @DeleteMapping("/todo")
-    public List<ToDoItem> deleteMultipleItems(){
-        return service.deleteMultipleItems();
+    public void deleteMultipleItems(@RequestBody List<Long> ids){
+
+        service.deleteMultipleItems(ids);
     }
 
     @PutMapping("/updateStatus")
     public Optional<ToDoItem> updateStatusOfTask(@RequestBody ToDoItem item){
+
         return service.updateStatus(item);
     }
 }

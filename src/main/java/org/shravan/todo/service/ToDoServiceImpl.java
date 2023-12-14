@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -58,8 +59,8 @@ public class ToDoServiceImpl implements ToDoService{
     }
 
     @Override
-    public List<ToDoItem> deleteMultipleItems() {
-        return null;
+    public void deleteMultipleItems(@RequestBody List<Long> ids) {
+        repository.deleteAllById(new ArrayList<>(ids));
     }
 
     @Override
