@@ -25,7 +25,7 @@ public class ToDoServiceImpl implements ToDoService{
     }
     @Override
     public Optional<ToDoItem> getItemById(@PathVariable Long id) {
-        if(!repository.findById(id).isPresent()){
+        if(!repository.existsById(id)){
             throw new ItemNotFoundException("Item not available with id: "+id);
         }
         return repository.findById(id);
@@ -33,18 +33,18 @@ public class ToDoServiceImpl implements ToDoService{
 
     //PENDING
     @Override
-    public ToDoItem updateItem(@RequestBody ToDoItem toDoItem) {
-        ToDoItem existingItem = repository.findById(toDoItem.getId()).orElse(null);
+    public void updateItem(@RequestBody ToDoItem toDoItem) {
+        if(toDoItem.getId()==null){
+            throw new IllegalArgumentException("Id is not present in given input");
+        }
 
-        if(existingItem!=null){
-            existingItem.setDescription(toDoItem.getDescription());
-            existingItem.setStatus(toDoItem.getStatus());
-            existingItem.setDeadLine(toDoItem.getDeadLine());
-        }
-        else{
-            return repository.save(toDoItem);
-        }
-        return repository.save(existingItem);
+        ToDoItem existingItem = repository.findById(toDoItem.getId())
+                .orElseThrow(() -> new ItemNotFoundException("Item not available in DB with id: "+toDoItem.getId()));
+
+        existingItem.setDescription(toDoItem.getDescription());
+        existingItem.setStatus(toDoItem.getStatus());
+        existingItem.setDeadLine(toDoItem.getDeadLine());
+
     }
 
     @Override

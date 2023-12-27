@@ -4,6 +4,9 @@ package org.shravan.todo.controller;
 import org.shravan.todo.model.ToDoItem;
 import org.shravan.todo.service.ToDoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,38 +19,52 @@ public class ToDoController{
     private ToDoService service;
 
     @GetMapping("/todo")
-    public List<ToDoItem> getAllTodoDetails(){
-        return service.getAllTodoDetails();
+    public ResponseEntity getAllTodoDetails(){
+        List<ToDoItem> list = service.getAllTodoDetails();
+        return ResponseEntity.ok(list);
     }
 
+    //ResponseEntity with headers example
+    @GetMapping("/customHeader")
+    ResponseEntity<String> customHeader() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Custom-Header", "foo");
+
+        return new ResponseEntity<>(
+                "Custom header set", headers, HttpStatus.OK);
+    }
     @PostMapping("/todo")
-    public ToDoItem createTodoItem(@RequestBody ToDoItem newTask){
-        return service.createTodoItem(newTask);
+    public ResponseEntity createTodoItem(@RequestBody ToDoItem newTask){
+        ToDoItem toDoItem = service.createTodoItem(newTask);
+        return ResponseEntity.ok(toDoItem);
     }
 
     @GetMapping("/todo/{id}")
-    public Optional<ToDoItem> getItemById(@PathVariable Long id){
-        return service.getItemById(id);
+    public ResponseEntity getItemById(@PathVariable Long id){
+        Optional<ToDoItem> toDoItem = service.getItemById(id);
+        return ResponseEntity.ok(toDoItem);
     }
 
     @PutMapping("/todo")
-    public ToDoItem updateItem(@RequestBody ToDoItem updateItem){
-        return service.updateItem(updateItem);
+    public ResponseEntity updateItem(@RequestBody ToDoItem updateItem){
+        service.updateItem(updateItem);
+        return ResponseEntity.ok("Update Done");
     }
 
     @DeleteMapping("/todo/{id}")
-    public boolean deleteItem(@PathVariable Long id){
-        return service.deleteItem(id);
+    public ResponseEntity deleteItem(@PathVariable Long id){
+        boolean isTrue = service.deleteItem(id);
+        return ResponseEntity.ok(isTrue);
     }
     @DeleteMapping("/todo")
-    public void deleteMultipleItems(@RequestBody List<Long> ids){
-
+    public ResponseEntity deleteMultipleItems(@RequestBody List<Long> ids){
         service.deleteMultipleItems(ids);
+        return ResponseEntity.ok("Delete Done");
     }
 
     @PutMapping("/updateStatus")
-    public Optional<ToDoItem> updateStatusOfTask(@RequestBody ToDoItem item){
-
-        return service.updateStatus(item);
+    public ResponseEntity updateStatusOfTask(@RequestBody ToDoItem item){
+        Optional<ToDoItem> updatedItem = service.updateStatus(item);
+        return ResponseEntity.ok(updatedItem);
     }
 }
