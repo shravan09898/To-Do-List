@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 public class ToDoController{
@@ -40,7 +41,7 @@ public class ToDoController{
     }
 
     @GetMapping("/todo/{id}")
-    public ResponseEntity getItemById(@PathVariable Long id){
+    public ResponseEntity getItemById(@PathVariable UUID id){
         Optional<ToDoItem> toDoItem = service.getItemById(id);
         return ResponseEntity.ok(toDoItem);
     }
@@ -52,12 +53,12 @@ public class ToDoController{
     }
 
     @DeleteMapping("/todo/{id}")
-    public ResponseEntity deleteItem(@PathVariable Long id){
+    public ResponseEntity deleteItem(@PathVariable UUID id){
         boolean isTrue = service.deleteItem(id);
         return ResponseEntity.ok(isTrue);
     }
     @DeleteMapping("/todo")
-    public ResponseEntity deleteMultipleItems(@RequestBody List<Long> ids){
+    public ResponseEntity deleteMultipleItems(@RequestBody List<UUID> ids){
         service.deleteMultipleItems(ids);
         return ResponseEntity.ok("Delete Done");
     }

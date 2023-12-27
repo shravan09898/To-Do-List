@@ -9,13 +9,14 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.UUID;
 
 @Entity
 @Getter
 @Setter
 public class ToDoItem {
 
-    private @Id @GeneratedValue(strategy = GenerationType.AUTO) Long id;
+    private @Id @GeneratedValue(strategy = GenerationType.AUTO) UUID id;
     private String description;
 
     @Enumerated(EnumType.ORDINAL)

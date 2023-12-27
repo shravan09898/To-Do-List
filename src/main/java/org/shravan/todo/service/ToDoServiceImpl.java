@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class ToDoServiceImpl implements ToDoService{
@@ -24,7 +25,7 @@ public class ToDoServiceImpl implements ToDoService{
         return repository.save(item);
     }
     @Override
-    public Optional<ToDoItem> getItemById(@PathVariable Long id) {
+    public Optional<ToDoItem> getItemById(@PathVariable UUID id) {
         if(!repository.existsById(id)){
             throw new ItemNotFoundException("Item not available with id: "+id);
         }
@@ -48,7 +49,7 @@ public class ToDoServiceImpl implements ToDoService{
     }
 
     @Override
-    public boolean deleteItem(@PathVariable Long id) {
+    public boolean deleteItem(@PathVariable UUID id) {
         if(repository.findById(id).isPresent()){
             repository.deleteById(id);
         }
@@ -59,13 +60,13 @@ public class ToDoServiceImpl implements ToDoService{
     }
 
     @Override
-    public void deleteMultipleItems(@RequestBody List<Long> ids) {
+    public void deleteMultipleItems(@RequestBody List<UUID> ids) {
         repository.deleteAllById(new ArrayList<>(ids));
     }
 
     @Override
     public Optional<ToDoItem> updateStatus(@RequestBody ToDoItem toDoItem) {
-        Long id = toDoItem.getId();
+        UUID id = toDoItem.getId();
         if(repository.existsById(id)){
             ToDoItem item = repository.findById(id).orElse(null);
             item.setStatus(toDoItem.getStatus());
